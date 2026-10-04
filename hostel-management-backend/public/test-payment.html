@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hostel Fee Payment</title>
+</head>
+
+<body>
+
+    <h2>Hostel Fee Payment</h2>
+
+    <p>Amount: ₹30,000</p>
+
+    <button onclick="payNow()">Pay Now</button>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <script>
+        function payNow() {
+
+            const options = {
+                key: "rzp_test_TbS3mVHdLPFVps",
+
+                amount: 3000000,
+
+                currency: "INR",
+
+                name: "Hostel Management System",
+
+                description: "Hostel Fee Payment",
+
+                order_id: "order_TbWBCdknddcu21",
+
+                prefill: {
+                  contact: "9328756046"
+                },
+
+                handler: function (response) {
+
+                    console.log("Payment successful!");
+                    console.log(response);
+
+                 
+                    alert(
+                        "Payment Successful!\n\n" +
+                        "Payment ID: " +
+                        response.razorpay_payment_id
+                    );
+                },
+
+                handler: function (response) {
+
+    console.log("Payment successful!");
+    console.log(response);
+
+    document.body.innerHTML = `
+        <h2>Payment Successful</h2>
+
+        <p><b>Payment ID:</b></p>
+        <input
+            type="text"
+            value="${response.razorpay_payment_id}"
+            style="width: 500px;"
+            readonly
+        >
+
+        <p><b>Order ID:</b></p>
+        <input
+            type="text"
+            value="${response.razorpay_order_id}"
+            style="width: 500px;"
+            readonly
+        >
+
+        <p><b>Signature:</b></p>
+        <textarea
+            style="width: 500px; height: 100px;"
+            readonly
+        >${response.razorpay_signature}</textarea>
+
+        <p>You can now copy these values for testing.</p>
+    `;
+},
+
+                theme: {
+                    color: "#3399cc"
+                }
+            };
+
+            const razorpay = new Razorpay(options);
+
+            razorpay.open();
+        }
+    </script>
+
+</body>
+</html>
